@@ -1,1 +1,1 @@
-# AdvancedEconometrics
+# Advanced Econometrics
