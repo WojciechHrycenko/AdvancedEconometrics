@@ -5,7 +5,7 @@ library(MASS)
 
 # 1. Load the dataset
 df <- read.csv("driver_at_fault_sample_final.csv", stringsAsFactors = FALSE)
-
+df <- df[1:10000, ]
 # 2. Ensure the 'total_victims' column is numeric
 df$total_victims <- as.numeric(df$total_victims)
 
@@ -74,44 +74,25 @@ if (p_val < 0.05) {
 }
 
 # 7. Fit a Poisson regression model
-poisson_model <- glm(total_victims ~ road_surface + direction_of_travel + motor_vehicle_involved_with +
-                       lighting + weather_1 + party_sex + party_age + party_sobriety +
-                       financial_responsibility + cellphone_in_use + party_race +
-                       collision_severity + party_count + hit_and_run + car_age + season +
-                       year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault +
-                       party_safety_equipment_2 + party_safety_equipment_1 + pcf_violation_category +
-                       type_of_collision + population + county_location + movement_preceding_collision,
-                     family = "poisson", data = df)
+# Poisson
+poisson_model <- glm(total_victims ~ road_surface + direction_of_travel + lighting + weather_1 + party_sex + party_age + party_sobriety + financial_responsibility + 
+cellphone_in_use + party_race +  + party_count + hit_and_run + car_age + season + year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault + party_safety_equipment_1 
++   type_of_collision + county_location + population + motor_vehicle_involved_with + movement_preceding_collision, family = "poisson", data = df)
 
-# 8. Fit a Negative Binomial regression model
-nb_model <- glm.nb(total_victims ~ road_surface + direction_of_travel + motor_vehicle_involved_with +
-                     lighting + weather_1 + party_sex + party_age + party_sobriety +
-                     financial_responsibility + cellphone_in_use + party_race +
-                     collision_severity + party_count + hit_and_run + car_age + season +
-                     year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault +
-                     party_safety_equipment_2 + party_safety_equipment_1 + pcf_violation_category +
-                     type_of_collision + population + county_location + movement_preceding_collision,
-                   data = df)
+# Negative Binomial
+nb_model <- glm.nb(total_victims ~ road_surface + direction_of_travel + lighting + weather_1 + party_sex + party_age + party_sobriety + financial_responsibility + 
+cellphone_in_use + party_race +  + party_count + hit_and_run + car_age + season + year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault + party_safety_equipment_1 
++ type_of_collision + county_location + population + motor_vehicle_involved_with + movement_preceding_collision, data = df)
 
-# 9. Fit a Zero-Inflated Poisson (ZIP) model
-zip_model <- zeroinfl(total_victims ~ road_surface + direction_of_travel + motor_vehicle_involved_with +
-                        lighting + weather_1 + party_sex + party_age + party_sobriety +
-                        financial_responsibility + cellphone_in_use + party_race +
-                        collision_severity + party_count + hit_and_run + car_age + season +
-                        year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault +
-                        party_safety_equipment_2 + party_safety_equipment_1 + pcf_violation_category +
-                        type_of_collision + population + county_location + movement_preceding_collision,
-                      data = df, dist = "poisson")
+# ZIP
+zip_model <- zeroinfl(total_victims ~ road_surface + direction_of_travel + lighting + weather_1 + party_sex + party_age + party_sobriety + financial_responsibility + 
+cellphone_in_use + party_race +  + party_count + hit_and_run + car_age + season + year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault + party_safety_equipment_1 
++ type_of_collision + county_location + population + motor_vehicle_involved_with + movement_preceding_collision, data = df, dist = "poisson")
 
-# 10. Fit a Zero-Inflated Negative Binomial (ZINB) model
-zinb_model <- zeroinfl(total_victims ~ road_surface + direction_of_travel + motor_vehicle_involved_with +
-                         lighting + weather_1 + party_sex + party_age + party_sobriety +
-                         financial_responsibility + cellphone_in_use + party_race +
-                         collision_severity + party_count + hit_and_run + car_age + season +
-                         year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault +
-                         party_safety_equipment_2 + party_safety_equipment_1 + pcf_violation_category +
-                         type_of_collision + population + county_location + movement_preceding_collision,
-                       data = df, dist = "negbin")
+# ZINB
+zinb_model <- zeroinfl(total_victims ~ road_surface + direction_of_travel + lighting + weather_1 + party_sex + party_age + party_sobriety + financial_responsibility 
++ cellphone_in_use + party_race + party_count + hit_and_run + car_age + season + year + region + time_of_day + chp_beat_type + chp_vehicle_type_at_fault + party_safety_equipment_1 
++ type_of_collision + county_location + population + motor_vehicle_involved_with + movement_preceding_collision, data = df, dist = "negbin")
 
 # 11. Collect all models in a list for comparison
 model_list <- list(

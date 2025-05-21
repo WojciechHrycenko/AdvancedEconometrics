@@ -16,7 +16,7 @@ columns_to_remove <- c(
   "at_fault", "chp_beat_class", "statewide_vehicle_type_at_fault", "intersection", "bicycle_collision", "party_number_killed", 
   "party_number_injured", "chp_shift", "pedestrian_collision", "motorcycle_collision", "truck_collision", "direction", "chp_vehicle_type_towing", 
   "road_condition_1", "pedestrian_action", "control_device", "tow_away", "special_condition", "state_highway_indicator", "cellphone_use_type",
-  "statewide_vehicle_type", "other_associate_factor_1"
+  "statewide_vehicle_type", "other_associate_factor_1", "party_safety_equipment_2", "pcf_violation_category", "collision_severity"
 )
 
 # Drop columns if present
