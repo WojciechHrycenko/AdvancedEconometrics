@@ -28,7 +28,7 @@ parties_filtered <- dbGetQuery(conn, parties_query)
 # Sample up to 30,000 drivers
 set.seed(123)
 parties_sample_raw <- parties_filtered %>%
-  sample_n(size = min(30000, nrow(.)))
+  sample_n(size = min(100000, nrow(.)))
 
 # Keep one driver per case_id
 parties_sample <- parties_sample_raw %>%
